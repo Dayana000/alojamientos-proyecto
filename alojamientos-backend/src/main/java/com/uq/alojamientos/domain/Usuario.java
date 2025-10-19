@@ -36,5 +36,5 @@ public class Usuario {
     private String fotoUrl;
 
     @Column(nullable = false)
-    private Boolean activo = true;
+    private Boolean activo = Boolean.TRUE;
 }
