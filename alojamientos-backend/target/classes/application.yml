@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: alojamientos
+
+  datasource:
+    url: jdbc:mariadb://localhost:3306/alojamientos_db
+    username: root
+    password: root1234
+
+  jpa:
+    hibernate:
+      ddl-auto: update       # en prod usa 'none' + migraciones
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  mvc:
+    problemdetails:
+      enabled: true
+
+server:
+  port: 8080
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+
+# --- CORS (usado por CorsConfig) ---
+cors:
+  allowed-origins: "http://localhost:4200"
+  allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
+  allowed-headers: "*"
+
+# --- JWT: mantenemos la sección app.jwt (legacy) y agregamos app.security para el código nuevo ---
+app:
+  jwt:
+    secret: "d3v_5up3r_53cr3t_Cl4v3_L4rg4_y_4l34t0r14_Para_JWT_1234567890"
+    expiration-minutes: 120
+
+  # Propiedades usadas por el servicio de refresh tokens creado
+  security:
+    # tiempo (en minutos) de validez del refresh token (default 43200 = 30 días)
+    refresh-token-minutes: 43200
+
+    # tiempo (en minutos) de validez del access token (si quieres controlarlo desde props)
+    access-token-minutes: 15
+
+    # clave secreta principal para firmar JWT (si tu JwtService usa esta clave)
+    jwt-secret: "d3v_5up3r_53cr3t_Cl4v3_L4rg4_y_4l34t0r14_Para_JWT_1234567890"
