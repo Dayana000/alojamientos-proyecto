@@ -1,0 +1,95 @@
+.reservas-usuario {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+
+  &__title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  &__filters {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  &__select {
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.4rem;
+    border: 1px solid #ddd;
+  }
+
+  &__state {
+    text-align: center;
+    margin-top: 2rem;
+
+    &--error {
+      color: #c0392b;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__card {
+    border-radius: 0.8rem;
+    border: 1px solid #eee;
+    padding: 1rem 1.2rem;
+    background: #fff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+  }
+
+  &__card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  &__card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  &__chip {
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+
+    &--pendiente {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    &--confirmada {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    &--cancelada {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    &--completada {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+  }
+
+  &__card-footer {
+    margin-top: 0.8rem;
+  }
+
+  &__link {
+    color: #ff4b6a;
+    text-decoration: none;
+    font-weight: 500;
+  }
+}

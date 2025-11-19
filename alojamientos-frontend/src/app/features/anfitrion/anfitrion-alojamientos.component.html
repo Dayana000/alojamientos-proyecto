@@ -1,0 +1,40 @@
+<div class="host" *ngIf="!loading && !error">
+  <div class="host__header">
+    <h1 class="host__title">Mis alojamientos</h1>
+
+    <button class="host__button host__button--primary" type="button">
+      + Crear alojamiento
+    </button>
+  </div>
+
+  <div *ngIf="alojamientos.length === 0" class="host__empty">
+    Aún no tienes alojamientos registrados.
+  </div>
+
+  <div class="host__list" *ngIf="alojamientos.length > 0">
+    <article class="host__card" *ngFor="let a of alojamientos">
+      <h2 class="host__card-title">{{ a.titulo }}</h2>
+      <p class="host__card-city">{{ a.ciudad }}</p>
+      <p class="host__card-price">
+        {{ a.precioPorNoche | currency:'COP':'symbol':'1.0-0' }} / noche
+      </p>
+
+      <div class="host__card-actions">
+        <button class="host__button" type="button">
+          Editar
+        </button>
+        <button class="host__button host__button--danger" type="button" disabled>
+          Eliminar (próximamente)
+        </button>
+      </div>
+    </article>
+  </div>
+</div>
+
+<div *ngIf="loading" class="host__state">
+  Cargando alojamientos...
+</div>
+
+<div *ngIf="error" class="host__state host__state--error">
+  {{ error }}
+</div>

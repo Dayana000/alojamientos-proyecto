@@ -1,0 +1,4 @@
+<!-- Header visible en todas las rutas MENOS /auth y /register -->
+<app-main-header *ngIf="!isAuthRoute()"></app-main-header>
+
+<router-outlet></router-outlet>

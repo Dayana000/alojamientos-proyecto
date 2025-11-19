@@ -1,0 +1,106 @@
+<div class="reserva" *ngIf="!loadingAlojamiento; else cargando">
+
+  <ng-container *ngIf="alojamiento; else sinAlojamiento">
+
+    <section class="reserva__layout">
+
+      <!-- Columna izquierda: info del alojamiento -->
+      <div class="reserva__alojamiento">
+        <div class="reserva__image-wrapper">
+          <img
+            src="https://picsum.photos/800/400"
+            [alt]="alojamiento?.titulo"
+            class="reserva__image"
+          />
+        </div>
+
+        <h1 class="reserva__title">{{ alojamiento?.titulo }}</h1>
+        <p class="reserva__city">{{ alojamiento?.ciudad }}</p>
+
+        <p class="reserva__description">
+          {{ alojamiento?.descripcion }}
+        </p>
+
+        <p class="reserva__price">
+          {{ alojamiento?.precioPorNoche | currency:'COP':'symbol':'1.0-0' }}
+          <span class="reserva__price-night">/ noche</span>
+        </p>
+
+        <p class="reserva__capacity">
+          Capacidad máxima: {{ alojamiento?.capacidadMaxima }} huéspedes
+        </p>
+      </div>
+
+      <!-- Columna derecha: formulario de reserva -->
+      <div class="reserva__card">
+        <h2 class="reserva__card-title">Reserva tu estadía</h2>
+
+        <form
+          [formGroup]="reservaForm"
+          (ngSubmit)="crearReserva()"
+          class="reserva__form"
+        >
+
+          <div class="reserva__field">
+            <label class="reserva__label">Fecha de llegada</label>
+            <input
+              type="date"
+              class="reserva__input"
+              formControlName="checkIn"
+            />
+          </div>
+
+          <div class="reserva__field">
+            <label class="reserva__label">Fecha de salida</label>
+            <input
+              type="date"
+              class="reserva__input"
+              formControlName="checkOut"
+            />
+          </div>
+
+          <div class="reserva__field">
+            <label class="reserva__label">Número de huéspedes</label>
+            <input
+              type="number"
+              min="1"
+              class="reserva__input"
+              formControlName="huespedes"
+            />
+          </div>
+
+          <button
+            class="reserva__button"
+            type="submit"
+            [disabled]="loadingReserva"
+          >
+            {{ loadingReserva ? 'Creando reserva...' : 'Confirmar reserva' }}
+          </button>
+
+          <p class="reserva__message reserva__message--ok" *ngIf="mensajeOk">
+            {{ mensajeOk }}
+          </p>
+
+          <p class="reserva__message reserva__message--error" *ngIf="mensajeError">
+            {{ mensajeError }}
+          </p>
+        </form>
+
+      </div>
+    </section>
+
+  </ng-container>
+
+</div>
+
+<ng-template #cargando>
+  <div class="reserva__loading">
+    Cargando información del alojamiento...
+  </div>
+</ng-template>
+
+<ng-template #sinAlojamiento>
+  <div class="reserva__error">
+    No se pudo cargar la información del alojamiento.
+  </div>
+</ng-template>

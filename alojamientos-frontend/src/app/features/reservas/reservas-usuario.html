@@ -1,0 +1,82 @@
+<div class="reservas-usuario">
+
+  <h1 class="reservas-usuario__title">Mis reservas</h1>
+
+  <!-- Filtros -->
+  <div class="reservas-usuario__filters">
+    <label class="reservas-usuario__label">Filtrar por estado:</label>
+    <select
+      class="reservas-usuario__select"
+      [(ngModel)]="filtroEstado"
+      (change)="onCambioEstado(filtroEstado)"
+    >
+      <option value="TODAS">Todas</option>
+      <option value="PENDIENTE">Pendiente</option>
+      <option value="CONFIRMADA">Confirmada</option>
+      <option value="CANCELADA">Cancelada</option>
+      <option value="COMPLETADA">Completada</option>
+    </select>
+  </div>
+
+  <!-- Cargando -->
+  <div class="reservas-usuario__state" *ngIf="loading">
+    Cargando tus reservas...
+  </div>
+
+  <!-- Error -->
+  <div
+    class="reservas-usuario__state reservas-usuario__state--error"
+    *ngIf="!loading && error"
+  >
+    {{ error }}
+  </div>
+
+  <!-- Sin reservas -->
+  <div
+    class="reservas-usuario__state"
+    *ngIf="!loading && !error && reservasFiltradas.length === 0"
+  >
+    Aún no tienes reservas.
+  </div>
+
+  <!-- Lista -->
+  <div
+    class="reservas-usuario__list"
+    *ngIf="!loading && !error && reservasFiltradas.length > 0"
+  >
+    <article
+      class="reservas-usuario__card"
+      *ngFor="let r of reservasFiltradas"
+    >
+      <header class="reservas-usuario__card-header">
+        <h2 class="reservas-usuario__card-title">
+          {{ r.alojamiento?.titulo || ('Alojamiento #' + (r.alojamientoId || r.alojamiento_id)) }}
+        </h2>
+        <span
+          class="reservas-usuario__chip reservas-usuario__chip--{{ (r.estado || '').toLowerCase() }}"
+        >
+          {{ r.estado }}
+        </span>
+      </header>
+
+      <div class="reservas-usuario__card-body">
+        <p>
+          <strong>Check-in:</strong>
+          {{ r.checkIn || r.check_in | date:'dd/MM/yyyy' }}
+        </p>
+        <p>
+          <strong>Check-out:</strong>
+          {{ r.checkOut || r.check_out | date:'dd/MM/yyyy' }}
+        </p>
+        <p>
+          <strong>Huéspedes:</strong> {{ r.huespedes }}
+        </p>
+        <p>
+          <strong>Total:</strong>
+          {{ r.total | currency:'COP':'symbol':'1.0-0' }}
+        </p>
+      </div>
+    </article>
+  </div>
+
+</div>

@@ -1,0 +1,162 @@
+<div class="detalle" *ngIf="!loading && alojamiento">
+
+  <!-- Imagen principal -->
+  <div class="detalle__hero">
+    <img
+      class="detalle__hero-image"
+      src="https://picsum.photos/1200/500"
+      [alt]="alojamiento.titulo"
+    />
+  </div>
+
+  <div class="detalle__content">
+
+    <!-- Información principal -->
+    <section class="detalle__main">
+      <h1 class="detalle__title">{{ alojamiento.titulo }}</h1>
+      <p class="detalle__city">{{ alojamiento.ciudad }}</p>
+
+      <p class="detalle__description">
+        {{ alojamiento.descripcion }}
+      </p>
+
+      <div class="detalle__meta">
+        <span class="detalle__price">
+          {{ alojamiento.precioPorNoche | currency:'COP':'symbol':'1.0-0' }}
+          <span class="detalle__price-night">/ noche</span>
+        </span>
+
+        <span class="detalle__capacity">
+          Capacidad: {{ alojamiento.capacidadMaxima }} huéspedes
+        </span>
+      </div>
+
+      <!-- ⭐ Resumen de calificación -->
+      <div class="detalle__rating-resumen">
+        <span class="detalle__rating-score">
+          ⭐ {{ promedioCalificacion | number: '1.1-1' }} / 5
+        </span>
+        <span class="detalle__rating-count">
+          ({{ comentariosTotal }} comentarios)
+        </span>
+      </div>
+
+      <!-- Sección de comentarios -->
+      <section class="detalle__reviews">
+        <h2 class="detalle__subtitle">Opiniones de huéspedes</h2>
+
+        <!-- Formulario para dejar comentario -->
+        <div *ngIf="puedeComentar; else noPuedeComentar" class="detalle__comment-form">
+          <h3 class="detalle__comment-title">Deja tu opinión</h3>
+
+          <form [formGroup]="comentarioForm" (ngSubmit)="onEnviarComentario()">
+            <div class="detalle__form-row">
+              <label for="calificacion">Calificación</label>
+              <select id="calificacion" formControlName="calificacion">
+                <option *ngFor="let n of [1,2,3,4,5]" [value]="n">
+                  {{ n }} ⭐
+                </option>
+              </select>
+            </div>
+
+            <div class="detalle__form-row">
+              <label for="texto">Comentario</label>
+              <textarea
+                id="texto"
+                rows="4"
+                formControlName="texto"
+                placeholder="Cuéntanos cómo fue tu experiencia..."
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              class="detalle__comment-button"
+              [disabled]="comentarioForm.invalid || enviandoComentario"
+            >
+              {{ enviandoComentario ? 'Enviando...' : 'Publicar comentario' }}
+            </button>
+          </form>
+        </div>
+
+        <ng-template #noPuedeComentar>
+          <p class="detalle__comment-info">
+            Solo puedes comentar si ya completaste una estadía en este alojamiento.
+          </p>
+        </ng-template>
+
+        <!-- Listado de comentarios -->
+        <div class="detalle__comments-list" *ngIf="comentarios.length > 0; else sinComentarios">
+          <article class="detalle__comment" *ngFor="let c of comentarios">
+            <header class="detalle__comment-header">
+              <span class="detalle__comment-author">
+                {{ c.usuarioNombre || 'Huésped' }}
+              </span>
+              <span class="detalle__comment-rating">⭐ {{ c.calificacion }}</span>
+              <span class="detalle__comment-date">
+                {{ c.createdAt | date:'shortDate' }}
+              </span>
+            </header>
+
+            <p class="detalle__comment-text">
+              {{ c.texto }}
+            </p>
+
+            <div class="detalle__comment-reply" *ngIf="c.respuestaAnfitrion">
+              <strong>Respuesta del anfitrión:</strong>
+              <p>{{ c.respuestaAnfitrion }}</p>
+            </div>
+          </article>
+        </div>
+
+        <ng-template #sinComentarios>
+          <p class="detalle__comment-info">
+            Aún no hay comentarios para este alojamiento.
+          </p>
+        </ng-template>
+      </section>
+
+    </section>
+
+    <!-- Aside / Información rápida -->
+    <aside class="detalle__aside">
+      <div class="detalle__box">
+        <h2 class="detalle__box-title">Información rápida</h2>
+
+        <p class="detalle__box-item">
+          <strong>Ciudad:</strong> {{ alojamiento.ciudad }}
+        </p>
+
+        <p class="detalle__box-item">
+          <strong>Capacidad:</strong> {{ alojamiento.capacidadMaxima }} huéspedes
+        </p>
+
+        <p class="detalle__box-item">
+          <strong>Precio por noche:</strong>
+          {{ alojamiento.precioPorNoche | currency:'COP':'symbol':'1.0-0' }}
+        </p>
+
+        <button
+          class="detalle__button"
+          type="button"
+          [routerLink]="['/alojamientos', alojamiento.id, 'reservar']"
+        >
+          Reservar este alojamiento
+        </button>
+
+      </div>
+    </aside>
+
+  </div>
+
+</div>
+
+<!-- Estado de carga -->
+<div class="detalle__state" *ngIf="loading">
+  Cargando alojamiento...
+</div>
+
+<!-- Estado de error -->
+<div class="detalle__state detalle__state--error" *ngIf="!loading && error">
+  {{ error }}
+</div>

@@ -1,0 +1,171 @@
+<div class="home">
+
+  <!-- HERO / HEADER -->
+  <section class="home__hero">
+    <div class="home__hero-content">
+      <h1 class="home__title">Encuentra tu próximo alojamiento</h1>
+      <p class="home__subtitle">
+        Casas, apartamentos y fincas para tus viajes en el Eje Cafetero ☕🌄
+      </p>
+
+      <!-- ✅ BOTÓN NUEVO: MIS RESERVAS -->
+      <button
+        class="home__misreservas-btn"
+        type="button"
+        routerLink="/mis-reservas"
+      >
+        Mis reservas
+      </button>
+    </div>
+
+    <!-- BARRA DE BÚSQUEDA -->
+    <form
+      class="home__search-bar"
+      [formGroup]="filtrosForm"
+      (ngSubmit)="buscar()"
+    >
+      <div class="home__search-field">
+        <label class="home__label">Ciudad</label>
+        <input
+          type="text"
+          class="home__input"
+          placeholder="¿A dónde quieres ir?"
+          formControlName="ciudad"
+        />
+      </div>
+
+      <div class="home__search-field">
+        <label class="home__label">Check-in</label>
+        <input
+          type="date"
+          class="home__input"
+          formControlName="checkIn"
+        />
+      </div>
+
+      <div class="home__search-field">
+        <label class="home__label">Check-out</label>
+        <input
+          type="date"
+          class="home__input"
+          formControlName="checkOut"
+        />
+      </div>
+
+      <div class="home__search-field">
+        <label class="home__label">Precio máximo</label>
+        <input
+          type="number"
+          class="home__input"
+          placeholder="Ej: 200000"
+          min="0"
+          formControlName="precioMax"
+        />
+      </div>
+
+      <button class="home__button" type="submit">
+        Buscar
+      </button>
+    </form>
+
+    <!-- Mensaje de error de búsqueda (fechas inválidas) -->
+    <p class="home__search-error" *ngIf="errorBusqueda">
+      {{ errorBusqueda }}
+    </p>
+  </section>
+
+  <!-- ESTADO DE CARGA -->
+  <section class="home__results" *ngIf="loading">
+    <div class="home__results-header">
+      <h2 class="home__results-title">Alojamientos destacados</h2>
+      <p class="home__results-count">Cargando alojamientos...</p>
+    </div>
+  </section>
+
+  <!-- LISTA DE ALOJAMIENTOS -->
+  <section class="home__results" *ngIf="!loading && alojamientos.length > 0">
+    <div class="home__results-header">
+      <h2 class="home__results-title">Alojamientos destacados</h2>
+      <p class="home__results-count">
+        {{ total }}
+        {{ total === 1 ? 'opción disponible' : 'opciones disponibles' }}
+      </p>
+    </div>
+
+    <div class="home__grid">
+      <article class="home__card" *ngFor="let alojamiento of alojamientos">
+
+        <div class="home__card-image-wrapper">
+          <img
+            src="https://picsum.photos/400/250"
+            [alt]="alojamiento.titulo"
+            class="home__card-image"
+          />
+        </div>
+
+        <div class="home__card-body">
+          <div class="home__card-header">
+            <h3 class="home__card-title">{{ alojamiento.titulo }}</h3>
+            <span class="home__card-city">{{ alojamiento.ciudad }}</span>
+          </div>
+
+          <div class="home__card-meta">
+            <span class="home__card-price">
+              {{ alojamiento.precioPorNoche | currency:'COP':'symbol':'1.0-0' }}
+              <span class="home__card-price-night">/ noche</span>
+            </span>
+          </div>
+
+          <div class="home__card-footer">
+            <span class="home__card-capacidad">
+              Capacidad: {{ alojamiento.capacidadMaxima }} huéspedes
+            </span>
+
+            <button
+              class="home__card-button"
+              [routerLink]="['/alojamientos', alojamiento.id]"
+            >
+              Ver detalles
+            </button>
+          </div>
+        </div>
+
+      </article>
+    </div>
+
+    <!-- Paginación -->
+    <div class="home__pagination">
+      <button
+        class="home__pagination-btn"
+        type="button"
+        (click)="anterior()"
+        [disabled]="page === 0"
+      >
+        Anterior
+      </button>
+
+      <span class="home__pagination-info">
+        Página {{ page + 1 }}
+      </span>
+
+      <button
+        class="home__pagination-btn"
+        type="button"
+        (click)="siguiente()"
+        [disabled]="(page + 1) * size >= total"
+      >
+        Siguiente
+      </button>
+    </div>
+  </section>
+
+  <!-- SIN RESULTADOS -->
+  <section class="home__results" *ngIf="!loading && alojamientos.length === 0">
+    <div class="home__results-header">
+      <h2 class="home__results-title">Alojamientos destacados</h2>
+      <p class="home__results-count">
+        No se encontraron alojamientos disponibles.
+      </p>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,26 @@
+<header class="header">
+  <div class="header__left" (click)="goToHome()">
+    <span class="header__logo">
+      Alojamientos<span class="header__logo--highlight">DAS</span>
+    </span>
+  </div>
+
+  <!-- Si está logueado: links internos + botón cerrar sesión -->
+  <nav class="header__nav" *ngIf="authService.isLoggedIn(); else authLinks">
+    <button class="header__button" (click)="goToHome()">Inicio</button>
+    <button class="header__button" (click)="goToReservas()">Mis reservas</button>
+    <button class="header__button header__button--primary" (click)="onLogout()">
+      Cerrar sesión
+    </button>
+  </nav>
+
+  <!-- Si NO está logueado: mostrar opciones de login/registro -->
+  <ng-template #authLinks>
+    <nav class="header__nav">
+      <a routerLink="/auth" class="header__link">Iniciar sesión</a>
+      <a routerLink="/register" class="header__button header__button--primary">
+        Registrarse
+      </a>
+    </nav>
+  </ng-template>
+</header>

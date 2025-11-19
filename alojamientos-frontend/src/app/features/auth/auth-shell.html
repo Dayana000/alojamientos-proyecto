@@ -1,0 +1,71 @@
+<div class="auth">
+  <div class="auth__card">
+
+    <!-- 🔥 BRANDING DENTRO DE LA TARJETA -->
+    <div class="brand">
+      <h1 class="brand__title">
+        Alojamientos<span>DAS</span>
+      </h1>
+      <p class="brand__subtitle">
+        Reservas inteligentes para el Eje Cafetero
+      </p>
+    </div>
+
+    <!-- 🧑‍💻 FORMULARIO DE LOGIN -->
+    <h2 class="auth__title">Iniciar sesión</h2>
+    <p class="auth__subtitle">
+      Ingresa a tu cuenta para administrar tus alojamientos.
+    </p>
+
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+      class="auth__form"
+    >
+
+      <div class="auth__field">
+        <label class="auth__label">Correo electrónico</label>
+        <input
+          type="email"
+          class="auth__input"
+          formControlName="email"
+          placeholder="tu@correo.com"
+        />
+      </div>
+
+      <div class="auth__field">
+        <label class="auth__label">Contraseña</label>
+        <input
+          type="password"
+          class="auth__input"
+          formControlName="password"
+          placeholder="Tu contraseña"
+        />
+      </div>
+
+      <button
+        class="auth__button"
+        type="submit"
+        [disabled]="loading"
+      >
+        {{ loading ? 'Ingresando...' : 'Entrar' }}
+      </button>
+
+      <div
+        class="auth__message auth__message--error"
+        *ngIf="errorMessage"
+      >
+        {{ errorMessage }}
+      </div>
+
+      <p class="auth__footer-text">
+        ¿No tienes cuenta?
+        <a routerLink="/register" class="auth__link">
+          Regístrate
+        </a>
+      </p>
+
+    </form>
+
+  </div>
+</div>

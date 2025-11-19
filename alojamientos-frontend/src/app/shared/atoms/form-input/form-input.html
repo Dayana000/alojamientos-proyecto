@@ -1,0 +1,14 @@
+<div class="auth__field">
+  <label class="auth__label">{{ label }}</label>
+
+  <input
+    class="auth__input"
+    [type]="type"
+    [placeholder]="placeholder"
+    [formControl]="control"
+  />
+
+  <div class="auth__error" *ngIf="control.touched && control.invalid">
+    {{ errorMessage }}
+  </div>
+</div>

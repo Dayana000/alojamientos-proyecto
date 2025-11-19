@@ -1,0 +1,152 @@
+<div class="auth">
+  <div class="auth__card">
+    <h1 class="auth__title">Crear una cuenta</h1>
+    <p class="auth__subtitle">
+      Regístrate para reservar alojamientos o publicar tus propiedades.
+    </p>
+
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()"
+      class="auth__form"
+    >
+      <!-- NOMBRE -->
+      <div class="auth__field">
+        <label class="auth__label">Nombre completo</label>
+        <input
+          type="text"
+          class="auth__input"
+          formControlName="nombre"
+          placeholder="Tu nombre"
+        />
+        <div
+          class="auth__error"
+          *ngIf="f['nombre'].touched && f['nombre'].invalid"
+        >
+          El nombre es obligatorio y debe tener al menos 3 caracteres.
+        </div>
+      </div>
+
+      <!-- EMAIL -->
+      <div class="auth__field">
+        <label class="auth__label">Correo electrónico</label>
+        <input
+          type="email"
+          class="auth__input"
+          formControlName="email"
+          placeholder="tu@correo.com"
+        />
+        <div
+          class="auth__error"
+          *ngIf="f['email'].touched && f['email'].invalid"
+        >
+          Ingresa un correo electrónico válido.
+        </div>
+      </div>
+
+      <!-- TELÉFONO -->
+      <div class="auth__field">
+        <label class="auth__label">Teléfono</label>
+        <input
+          type="text"
+          class="auth__input"
+          formControlName="telefono"
+          placeholder="Ej: 3101234567"
+        />
+        <div
+          class="auth__error"
+          *ngIf="f['telefono'].touched && f['telefono'].invalid"
+        >
+          El teléfono es obligatorio.
+        </div>
+      </div>
+
+      <!-- FECHA NACIMIENTO -->
+      <div class="auth__field">
+        <label class="auth__label">Fecha de nacimiento</label>
+        <input
+          type="date"
+          class="auth__input"
+          formControlName="fechaNacimiento"
+        />
+        <div
+          class="auth__error"
+          *ngIf="
+            f['fechaNacimiento'].touched &&
+            f['fechaNacimiento'].invalid
+          "
+        >
+          La fecha de nacimiento es obligatoria.
+        </div>
+      </div>
+
+      <!-- ROL -->
+      <div class="auth__field">
+        <label class="auth__label">Rol</label>
+        <select class="auth__input" formControlName="rol">
+          <option value="USER">Usuario</option>
+          <option value="ANFITRION">Anfitrión</option>
+        </select>
+
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="auth__field">
+        <label class="auth__label">Contraseña</label>
+        <input
+          type="password"
+          class="auth__input"
+          formControlName="password"
+          placeholder="Mínimo 8 caracteres, 1 mayúscula, 1 número"
+        />
+        <div
+          class="auth__error"
+          *ngIf="f['password'].touched && f['password'].invalid"
+        >
+          La contraseña debe tener mínimo 8 caracteres, una mayúscula y un
+          número.
+        </div>
+      </div>
+
+      <!-- CONFIRMAR PASSWORD -->
+      <div class="auth__field">
+        <label class="auth__label">Confirmar contraseña</label>
+        <input
+          type="password"
+          class="auth__input"
+          formControlName="confirmarPassword"
+          placeholder="Repite la contraseña"
+        />
+        <div
+          class="auth__error"
+          *ngIf="
+            registerForm.errors?.['passwordsMismatch'] &&
+            f['confirmarPassword'].touched
+          "
+        >
+          Las contraseñas no coinciden.
+        </div>
+      </div>
+
+      <!-- BOTÓN -->
+      <button class="auth__button" type="submit" [disabled]="loading">
+        {{ loading ? 'Creando cuenta...' : 'Crear cuenta' }}
+      </button>
+
+      <!-- MENSAJES -->
+      <div class="auth__message auth__message--error" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <div class="auth__message auth__message--success" *ngIf="successMessage">
+        {{ successMessage }}
+      </div>
+
+      <!-- LINK A LOGIN -->
+      <p class="auth__footer-text">
+        ¿Ya tienes cuenta?
+        <a routerLink="/auth" class="auth__link">Inicia sesión</a>
+      </p>
+    </form>
+  </div>
+</div>
